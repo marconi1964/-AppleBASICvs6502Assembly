@@ -4,7 +4,7 @@ Inspired by this video [Python vs C/C++ vs Assembly side-by-side comparison](htt
 
 I use AppleWin emulator to run both Apple BASIC and 6502 assembly, and use stop watch to clock the time elapses. Considering the Apple II is running at 1MHz only, so I only count the numbers of Prime up to 255 (0xFFH). 
 
-In the beginning, since the assembly program is short, it is quite quick for me to code in assembly code and manually translate into machine code (primesearch.asm) than finding assembler and installation, etc. Later, I do try [Merlin 32 Cross Assembler](https://brutaldeluxe.fr/products/crossdevtools/merlin/), and use [CiderPress](https://a2ciderpress.com/) to create an Apple II disk with the object file (prime). One interesting fact I learn from Ciderpress is the object file needs to add 4 bytes as a file descipter (though I need to dig out why yet.)
+In the beginning, since the assembly program is short, it is quite quick for me to code in assembly code and manually translate into machine code (primesearch.asm) than finding assembler and installation, etc. Later, I do try [Merlin 32 Cross Assembler](https://brutaldeluxe.fr/products/crossdevtools/merlin/) to generate objective file (prime and prime_output.txt), and use [CiderPress](https://a2ciderpress.com/) to create an Apple II disk including the object file. One interesting fact I learn from Ciderpress is the object file needs to add 4 bytes as a file descipter (though I need to dig out why yet.)
 
 primesearch.c is also attached, but I did not spend effort to find Apple II C compiler yet. Once done, will compare how much deviation between C and Assembly, to see how complier efficiency is. (Python3 code is listed only for reference.)
 
