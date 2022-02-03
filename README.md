@@ -1,10 +1,10 @@
 # Apple BASIC vs 6502 Assembly in Prime number search
 
-When I watched this video, https://www.youtube.com/watch?v=3PcIJKd1PKU. It came to my mind that I should do a comparison on Apple II BASIC vs 6502 assembly (machine) language. Here is the result.
+Inspired by this video [Python vs C/C++ vs Assembly side-by-side comparison](https://www.youtube.com/watch?v=3PcIJKd1PKU), I keep thinking of doing a comparison on Apple II BASIC vs 6502 assembly (machine) language. Here is the result.
 
 I use AppleWin emulator to run both Apple BASIC and 6502 assembly, and use stop watch to clock the time elapses. Considering the Apple II is running at 1MHz only, so I only count the numbers of Prime up to 255 (0xFFH). 
 
-Since the assembly program is short, it is quicker for me to code in assembly code and manually translate into machine code than finding assembler and installation, etc. So primesearch.asm will not meet any kind of assembler syntax.
+In the beginning, since the assembly program is short, it is quite quick for me to code in assembly code and manually translate into machine code (primesearch.asm) than finding assembler and installation, etc. Later, I do try [Merlin 32 Cross Assembler](https://brutaldeluxe.fr/products/crossdevtools/merlin/), and use [CiderPress](https://a2ciderpress.com/) to create an Apple II disk with the object file (prime). One interesting fact I learn from Ciderpress is the object file needs to add 4 bytes as a file descipter (though I need to dig out why yet.)
 
 primesearch.c is also attached, but I did not spend effort to find Apple II C compiler yet. Once done, will compare how much deviation between C and Assembly, to see how complier efficiency is. (Python3 code is listed only for reference.)
 
