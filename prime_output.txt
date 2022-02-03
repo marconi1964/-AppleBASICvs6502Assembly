@@ -1,0 +1,74 @@
+------+-------------------+-------------+----+---------+------+-----------------------+-------------------------------------------------------------------
+ Line | # File       Line | Line Type   | MX |  Reloc  | Size | Address   Object Code |  Source Code                                                      
+------+-------------------+-------------+----+---------+------+-----------------------+-------------------------------------------------------------------
+    1 |  1 prime.s      1 | Comment     | 11 |         |    0 | 00/8000               | ; Check numbers of Prime in 6502 assembly language
+    2 |  1 prime.s      2 | Empty       | 11 |         |    0 | 00/8000               |                                     
+    3 |  1 prime.s      3 | Empty       | 11 |         |    0 | 00/8000               | start                               
+    4 |  1 prime.s      4 | Directive   | 11 |         |    0 | 00/8000               |                org   $0c00          
+    5 |  1 prime.s      5 | Code        | 11 |         |    2 | 00/0C00 : A9 01       |                lda   #$01           ; 上面 BASIC 程式的 NUMPRIME
+    6 |  1 prime.s      6 | Code        | 11 |         |    3 | 00/0C02 : 8D FF 0C    |                sta   {$0cff}        
+    7 |  1 prime.s      7 | Code        | 11 |         |    2 | 00/0C05 : A9 FF       |                lda   #$ff           ; 上面 BASIC 程式的 ISIT
+    8 |  1 prime.s      8 | Code        | 11 |         |    3 | 00/0C07 : 8D FD 0C    |                sta   {$0cfd}        
+    9 |  1 prime.s      9 | Empty       | 11 |         |    0 | 00/0C0A               |                                     
+   10 |  1 prime.s     10 | Empty       | 11 |         |    0 | 00/0C0A               | newisit                             ; 相對位址 0c0a, 可能需要修改
+   11 |  1 prime.s     11 | Code        | 11 |         |    1 | 00/0C0A : 48          |                pha                  
+   12 |  1 prime.s     12 | Code        | 11 |         |    1 | 00/0C0B : 4A          |                lsr                  
+   13 |  1 prime.s     13 | Code        | 11 |         |    1 | 00/0C0C : AA          |                tax                  
+   14 |  1 prime.s     14 | Code        | 11 |         |    1 | 00/0C0D : E8          |                inx                  ; x 是上面 BASIC 程式的 TEST = ISIT /2 + 1
+   15 |  1 prime.s     15 | Code        | 11 |         |    3 | 00/0C0E : 8E FE 0C    |                stx   {$0cfe}        
+   16 |  1 prime.s     16 | Code        | 11 |         |    1 | 00/0C11 : 68          |                pla                  
+   17 |  1 prime.s     17 | Empty       | 11 |         |    0 | 00/0C12               |                                     
+   18 |  1 prime.s     18 | Empty       | 11 |         |    0 | 00/0C12               | checkprime                          ; 相對位址 0c12, 可能需要修改
+   19 |  1 prime.s     19 | Code        | 11 |         |    3 | 00/0C12 : 20 42 0C    |                jsr   isprime        ; 進入時, a 是 ISIT; x 是 TEST, 返回結果如果不是 prime number, carry 設成 1
+   20 |  1 prime.s     20 | Code        | 11 |         |    2 | 00/0C15 : B0 0D       |                bcs   nonprime       ; 跳到相對位址, 可能需要修改
+   21 |  1 prime.s     21 | Code        | 11 |         |    3 | 00/0C17 : CE FE 0C    |                dec   {$0cfe}        ; 如果是 prime number, 如果 TEST >= 2, 將 TEST - 1 後繼續
+   22 |  1 prime.s     22 | Code        | 11 |         |    3 | 00/0C1A : AE FE 0C    |                ldx   {$0cfe}        
+   23 |  1 prime.s     23 | Code        | 11 |         |    2 | 00/0C1D : E0 01       |                cpx   #$01           
+   24 |  1 prime.s     24 | Code        | 11 |         |    2 | 00/0C1F : F0 10       |                beq   nextisit       ; 跳到相對位址 0c2e, 可能需要修改
+   25 |  1 prime.s     25 | Code        | 11 |         |    3 | 00/0C21 : 4C 12 0C    |                jmp   checkprime     ; 相對位址 0c12, 可能需要修改
+   26 |  1 prime.s     26 | Empty       | 11 |         |    0 | 00/0C24               |                                     
+   27 |  1 prime.s     27 | Empty       | 11 |         |    0 | 00/0C24               | nonprime                            ; 相對位址 0c24, 可能需要修改
+   28 |  1 prime.s     28 | Comment     | 11 |         |    0 | 00/0C24               |                          ; 如果不是 prime number, 繼續檢查下一個 ISIT
+   29 |  1 prime.s     29 | Code        | 11 |         |    3 | 00/0C24 : CE FD 0C    |                dec   {$0cfd}        
+   30 |  1 prime.s     30 | Code        | 11 |         |    3 | 00/0C27 : AD FD 0C    |                lda   {$0cfd}        
+   31 |  1 prime.s     31 | Code        | 11 |         |    2 | 00/0C2A : C9 02       |                cmp   #$02           
+   32 |  1 prime.s     32 | Code        | 11 |         |    2 | 00/0C2C : F0 13       |                beq   complete       ; 跳到相對位址 0c41, 可能需要修改
+   33 |  1 prime.s     33 | Code        | 11 |         |    3 | 00/0C2E : 4C 0A 0C    |                jmp   newisit        
+   34 |  1 prime.s     34 | Empty       | 11 |         |    0 | 00/0C31               |                                     
+   35 |  1 prime.s     35 | Empty       | 11 |         |    0 | 00/0C31               | nextisit                            ; 相對位址 0c31, 可能需要修改
+   36 |  1 prime.s     36 | Code        | 11 |         |    3 | 00/0C31 : EE FF 0C    |                inc   {$0cff}        ; 確定是 prime number, 增加一個 NUMPRIME
+   37 |  1 prime.s     37 | Code        | 11 |         |    3 | 00/0C34 : CE FD 0C    |                dec   {$0cfd}        ; 繼續檢查下一個 ISIT
+   38 |  1 prime.s     38 | Code        | 11 |         |    3 | 00/0C37 : AD FD 0C    |                lda   {$0cfd}        
+   39 |  1 prime.s     39 | Code        | 11 |         |    2 | 00/0C3A : C9 02       |                cmp   #$02           
+   40 |  1 prime.s     40 | Code        | 11 |         |    2 | 00/0C3C : F0 03       |                beq   complete       
+   41 |  1 prime.s     41 | Code        | 11 |         |    3 | 00/0C3E : 4C 0A 0C    |                jmp   newisit        
+   42 |  1 prime.s     42 | Empty       | 11 |         |    0 | 00/0C41               |                                     
+   43 |  1 prime.s     43 | Empty       | 11 |         |    0 | 00/0C41               | complete                            ; 相對位址 0c41, 可能需要修改
+   44 |  1 prime.s     44 | Code        | 11 |         |    1 | 00/0C41 : 60          |                rts                  
+   45 |  1 prime.s     45 | Empty       | 11 |         |    0 | 00/0C42               |                                     
+   46 |  1 prime.s     46 | Empty       | 11 |         |    0 | 00/0C42               | isprime                             ; 相對位址 0c42, 可能需要修改
+   47 |  1 prime.s     47 | Comment     | 11 |         |    0 | 00/0C42               |                          ; ISIT = ISIT - TEST 一直到 ISIT < TEST 為止 
+   48 |  1 prime.s     48 | Code        | 11 |         |    3 | 00/0C42 : AD FD 0C    |                lda   {$0cfd}        
+   49 |  1 prime.s     49 | Empty       | 11 |         |    0 | 00/0C45               | primecontinue                       ; 相對位址 0c45, 可能需要修改
+   50 |  1 prime.s     50 | Code        | 11 |         |    3 | 00/0C45 : CD FE 0C    |                cmp   {$0cfe}        
+   51 |  1 prime.s     51 | Code        | 11 |         |    2 | 00/0C48 : 90 08       |                bcc   iszero         ; ISIT < TEST 時進入檢查
+   52 |  1 prime.s     52 | Code        | 11 |         |    1 | 00/0C4A : 38          |                sec                  ; ISIT >= TEST
+   53 |  1 prime.s     53 | Code        | 11 |         |    3 | 00/0C4B : ED FE 0C    |                sbc   {$0cfe}        
+   54 |  1 prime.s     54 | Code        | 11 |         |    3 | 00/0C4E : 4C 45 0C    |                jmp   primecontinue  
+   55 |  1 prime.s     55 | Code        | 11 |         |    1 | 00/0C51 : 60          |                rts                  
+   56 |  1 prime.s     56 | Empty       | 11 |         |    0 | 00/0C52               |                                     
+   57 |  1 prime.s     57 | Empty       | 11 |         |    0 | 00/0C52               | iszero                              ; 相對位址 0c52, 可能需要修改
+   58 |  1 prime.s     58 | Comment     | 11 |         |    0 | 00/0C52               |                           ; ISIT < TEST 時進入檢查
+   59 |  1 prime.s     59 | Code        | 11 |         |    2 | 00/0C52 : C9 00       |                cmp   #$00           
+   60 |  1 prime.s     60 | Code        | 11 |         |    2 | 00/0C54 : F0 02       |                beq   confirmzero    
+   61 |  1 prime.s     61 | Code        | 11 |         |    1 | 00/0C56 : 18          |                clc                  
+   62 |  1 prime.s     62 | Code        | 11 |         |    1 | 00/0C57 : 60          |                rts                  
+   63 |  1 prime.s     63 | Empty       | 11 |         |    0 | 00/0C58               | confirmzero                         
+   64 |  1 prime.s     64 | Code        | 11 |         |    1 | 00/0C58 : 38          |                sec                  
+   65 |  1 prime.s     65 | Code        | 11 |         |    1 | 00/0C59 : 60          |                rts                  
+   66 |  1 prime.s     66 | Empty       | 11 |         |    0 | 00/0C5A               |                                     
+   67 |  1 prime.s     67 | Empty       | 11 |         |    0 | 00/0C5A               |                                     
+   68 |  1 prime.s     68 | Equivalence | 11 |         |    0 | 00/0C5A               | ISIT           =     $0cfd          
+   69 |  1 prime.s     69 | Equivalence | 11 |         |    0 | 00/0C5A               | TEST           =     $0cfe          
+   70 |  1 prime.s     70 | Equivalence | 11 |         |    0 | 00/0C5A               | NUMPRIME       =     $0cff          
+------+-------------------+-------------+----+---------+------+-----------------------+-------------------------------------------------------------------
